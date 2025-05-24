@@ -1,0 +1,36 @@
+# Godot-specific ignores
+.import/
+.export/
+.export_presets.cfg
+
+# User-specific/editor files
+*.godot/
+*.mono/
+*.import/
+*.tmp
+*.log
+*.cfg
+*.db
+*.pidb
+*.sln
+*.csproj
+*.user
+*.vs/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.old
+*~
+
+# VSCode
+.vscode/
+
+# Godot 4.x cache
+.godot/
+
+# Build artifacts
+bin/ 
