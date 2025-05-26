@@ -38,6 +38,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 			if tween: tween.kill()
 			tween = create_tween()
 			tween.tween_property(self, "position", original_position, 0.15)
+			$AudioStreamPlayer2D.play()
 
 # Detecta el pas del ratolí sobre la tile
 func _on_mouse_entered() -> void:
