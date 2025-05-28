@@ -16,21 +16,23 @@ var is_animating = false # Indica si la tile està en procés d'animació
 
 # Actualitza l'estat de la tile i emiteix el senyal
 func set_state(new_state):
-	state = new_state # Actualitza l'estat de la tile
-	match state: # Actualitza el color de la tile segons l'estat
+	if not new_state in State.values(): # Comprova si l'estat és vàlid
+		return
+	match new_state: # Actualitza el color de la tile segons l'estat
 		State.HIDDEN: # Color fosc
 			$Sprite2D.modulate = Color(0.2, 0.2, 0.2, 1)
 		State.REVEALED: # Color clar
 			$Sprite2D.modulate = Color(1, 1, 1, 1)
+	state = new_state # Actualitza l'estat de la tile
 	emit_signal("estat_canviat", q, r, state) # Emiteix el senyal de canvi d'estat
 
 # Inicialitza la tile
 func _ready():
 	original_position = position # Actualitza la posició original de la tile
-	
+
 # Detecta el clic de la tile
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if is_animating:
+	if is_animating: # Si la tile està en procés d'animació, no fa res
 		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if state == State.HIDDEN:
@@ -42,21 +44,21 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 
 # Detecta el pas del ratolí sobre la tile
 func _on_mouse_entered() -> void:
-	if state == State.HIDDEN and not is_animating: # Si la tile està amagada i no està en procés d'animació
+	if state == State.HIDDEN and not is_animating: # Si la tile està amagada i no està en procés d'animació, anima la tile a la posició original + 3 píxels amunt
 		if tween: tween.kill() # Atura qualsevol tween anterior
 		tween = create_tween() # Crea un nou tween
 		tween.tween_property(self, "position", original_position + Vector2(0, -3), 0.15) # Anima la tile a la posició original + 3 píxels amunt
 
 # Detecta el pas del ratolí fora de la tile
 func _on_mouse_exited() -> void:
-	if not is_animating: # Si no està en procés d'animació
+	if not is_animating: # Si no està en procés d'animació, anima la tile a la posició original
 		if tween: tween.kill() # Atura qualsevol tween anterior
 		tween = create_tween() # Crea un nou tween
 		tween.tween_property(self, "position", original_position, 0.15) # Anima la tile a la posició original
 
 # Anima la tile a la posició original
 func animate_to_position(target_position: Vector2, duration := 0.4):
-	is_animating = true # Indica que la tile està en procés d'animació
+	is_animating = true # Indica que la tile està en procés d'animació i no fa res
 	if tween: tween.kill() # Atura qualsevol tween anterior
 	tween = create_tween() # Crea un nou tween
 	tween.tween_property(self, "position", target_position, duration) # Anima la tile a la posició target
@@ -64,9 +66,5 @@ func animate_to_position(target_position: Vector2, duration := 0.4):
 
 # Quan finalitza l'animació
 func _on_animation_finished():
-	is_animating = false # Indica que la tile no està en procés d'animació
-	original_position = position # Actualitza la posició original de la tile
-
-# Actualitza la posició original de la tile
-func _set_original_position():
+	is_animating = false # Indica que la tile no està en procés d'animació i fa el tween a la posició original
 	original_position = position # Actualitza la posició original de la tile

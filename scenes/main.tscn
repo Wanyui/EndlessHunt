@@ -1,24 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxnc21fh4xsu8"]
+[gd_scene load_steps=2 format=3 uid="uid://dxnc21fh4xsu8"]
 
 [ext_resource type="Script" uid="uid://lucuepi20kq7" path="res://scripts/main.gd" id="1_o5qli"]
-[ext_resource type="Script" uid="uid://djykv8rrn8al5" path="res://scripts/minimap.gd" id="2_0wfyh"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_o5qli")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Minimap" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1340.0
-offset_top = -780.0
-offset_right = -1300.0
-offset_bottom = -740.0
-grow_horizontal = 0
-grow_vertical = 0
-script = ExtResource("2_0wfyh")
